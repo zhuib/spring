@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+<constant name="struts.custom.i18n.resources" value="message"/>
+<package name="lab05" extends="struts-default" namespace="/lab05">
+    <action name="upload" class="com.sise.ation.FileUploadAction">
+        <param name="savePath">/upload</param>
+        <result name="input">/register.jsp</result>
+        <result name="success">/welcome.jsp</result>
+        <interceptor-ref name="fileUpload">
+            <param name="allowedTypes"> image/*</param>
+            <param name="maximumSize">1048576</param>
+        </interceptor-ref>
+        <interceptor-ref name="defaultStack"/>
+    </action>
+</package>
+
+</struts>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <package name="lab03" extends="struts-default" namespace="/lab03">
+        <interceptors>
+            <interceptor name="authorty" class="com.sise.lab01.intercepter.AuthorityInterceptor"/>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="authorty"/>
+            </interceptor-stack>
+        </interceptors>
+        <global-results>
+            <result name="login">/login.jsp</result>
+        </global-results>
+        <action name="login" class="com.sise.lab01.action.UserAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">/addUser</param>
+                <param name="namespace">/lab03</param>
+            </result>
+        </action>
+        <action name="addUser" class="com.sise.lab01.action.UserAction" method="addUser">
+            <result name="add">/addUser.jsp</result>
+            <interceptor-ref name="myStack"/>
+        </action>
+    </package>
+</struts>

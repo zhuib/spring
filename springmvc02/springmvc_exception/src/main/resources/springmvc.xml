@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--    开启注解扫描-->
+    <context:component-scan base-package="top.iaminlearn"/>
+
+    <!--    视图解析器对象-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--        文件路径-->
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <!--        文件后缀名-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+<!--    &lt;!&ndash;    配置文件解析器对象&ndash;&gt;
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>-->
+
+    <!--    前端控制器，那些静态资源不拦截  两个** 是所有js目录下的所有文件-->
+<!--    <mvc:resources mapping="/js/**" location="/js/**"/>-->
+
+    <!--    配置异常信息处理器-->
+    <bean id="sysExceptionResolver" class="top.iaminlearn.exception.SysExceptionResolver"/>
+
+<!--    配置拦截器-->
+        <mvc:interceptors>
+            <mvc:interceptor>
+<!--                要拦截的具体方法    拦截 /user/* 下所有方法  或是 拦截 /** 所有方法-->
+                <mvc:mapping path="/user/*"/>
+<!--                不拦截的方法-->
+<!--                <mvc:exclude-mapping path=""/>-->
+<!--                配置自定义拦截器 对象-->
+                <bean class="top.iaminlearn.interceptor.MyInterceptor"/>
+            </mvc:interceptor>
+<!--            第二个拦截器-->
+            <mvc:interceptor>
+                <!--                要拦截的具体方法    拦截 /user/* 下所有方法  或是 拦截 /** 所有方法-->
+                <mvc:mapping path="/**"/>
+                <!--                不拦截的方法-->
+                <!--                <mvc:exclude-mapping path=""/>-->
+                <!--                配置自定义拦截器 对象-->
+                <bean class="top.iaminlearn.interceptor.MyInterceptor2"/>
+            </mvc:interceptor>
+        </mvc:interceptors>
+    <!--    开启springMVC 框架注解的支持-->
+    <mvc:annotation-driven/>
+</beans>
